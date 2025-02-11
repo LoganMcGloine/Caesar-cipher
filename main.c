@@ -55,21 +55,24 @@ int main() {
     char string[100];
 
     do {
-
-        printf(" Enter a command: \n");
-        scanf("%7s", command);
-        fgets(string, 100, stdin);
-        if(strcmp(command, "encrypt") == 0) {
-            encrypt(trim(string));
-            printf("\n");
+        printf("Enter a command: \n");
+        fflush(stdin);
+        if (fgets(command, sizeof(command), stdin) != NULL) {
+            command[strcspn(command, "\n")] = 0;
         }
-        else if (strcmp(command, "decrypt") == 0) {
-            decrypt(trim(string));
-            printf("\n");
-        } else if (strcmp(command, "exit") == 0) {return 0;}
-        else { printf("please enter command correctly!\n"); }
-
-
+        
+        if (fgets(string, sizeof(string), stdin) != NULL) {
+            if (strcmp(command, "encrypt") == 0) {
+                encrypt(trim(string));
+                printf("\n");
+            }
+            else if (strcmp(command, "decrypt") == 0) {
+                decrypt(trim(string));
+                printf("\n");
+            } else if (strcmp(command, "exit") == 0) {return 0;}
+            else { printf("please enter command correctly!\n"); }
+        }
+        
         ExitTest = strcmp(command, "exit");
     } while(ExitTest != 0);
 
