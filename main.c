@@ -15,12 +15,13 @@ char *trim(char *s) {
 //Encrypts letter using the formula C = E(k,P) = (C +k)(mod 26) then moving it to the correct position in ASCII
 char encryption(char letter) {
    letter=  toupper(letter);
-    if ("%d", letter != 32 ) letter = ((("%d", letter -65) + 3) % 26) + 65;
+    if (letter != 32 ) {letter = ((letter - 'A' + 3) % 26) + 'A'}
        printf("%c", letter);
+    return letter;
 }
 
 //sends word letter by letter into the encryption method to get encrypted until the array is empty
-char encrypt(char word[]) {
+void encrypt(char word[]) {
     int i = 0;
     while (word[i] != 0) {
             encryption(word[i]);
@@ -32,13 +33,13 @@ char encrypt(char word[]) {
 //decrypts letter using the formula P = D(k,C) = (C -k)(mod 26) then moving it to the correct position in ASCII
 char decryption(char letter) {
     letter = toupper(letter);
-   if ("%d", letter != 32) {letter =(("%d", letter -16)%26)+65;}
+   if (letter != 32) {letter = ((letter - 'A' - 3 + 26) % 26) + 'A';}
        printf("%c", letter);
-
+    return letter;
 }
 
 //sends word letter by letter into the decryption method to get decrypted until the array is empty
-char decrypt(char word[]) {
+void decrypt(char word[]) {
     int i = 0;
     while (word[i] != 0) {
             decryption(word[(i)]);
@@ -47,22 +48,19 @@ char decrypt(char word[]) {
     printf(" ");
 }
 
-char encoder(char c) {
-
+void encoder(char c) {
     for (int i = 7; i >= 0; i--) {
-        c = ((c&(1 << i)) ? '1' : '0');
-        printf("%c", c);
+        printf("%c", (c & (1 << i)) ? '1' : '0');
     }
-    return c;
+    printf(" ");
 }
-char encode(char string[]) {
-    char str[7];
+
+// Encodes a string into binary
+void encode(char string[]) {
     int len = strlen(string);
-    for(int i =0; i<len; i++) {
-     encoder(string[i]);
+    for (int i = 0; i < len; i++) {
+        encoder(string[i]);
     }
-
-
 }
 
 int ExitTest;
@@ -73,7 +71,7 @@ int main() {
     do {
 
         printf(" Enter a command: \n");
-        scanf("%s", command);
+        scanf("%7s", command);
         fgets(string, 100, stdin);
         if(strcmp(command, "encrypt") == 0) {
             encrypt(trim(string));
